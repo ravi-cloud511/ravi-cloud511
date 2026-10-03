@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="800" height="300">
+<style>
+text{font-family:Segoe UI,Arial,sans-serif}
+.bar{transform-box:fill-box;transform-origin:left;transform:scaleX(0);animation:g 1.6s ease-out forwards}
+@keyframes g{to{transform:scaleX(1)}}
+.b2{animation-delay:.4s}.b3{animation-delay:.8s}
+.fade{opacity:0;animation:f 1s .3s forwards}
+@keyframes f{to{opacity:1}}
+.sq{animation:tw 2.4s ease-in-out infinite}
+@keyframes tw{0%,100%{opacity:.2}50%{opacity:1}}
+.r2{animation-delay:.5s}.r3{animation-delay:1s}.r4{animation-delay:1.5s}
+.pulse{animation:p 2s ease-in-out infinite}
+@keyframes p{0%,100%{opacity:.4}50%{opacity:1}}
+</style>
+<rect width="800" height="300" rx="14" fill="#0d1117" stroke="#30363d"/>
+<circle cx="770" cy="30" r="5" fill="#3fb950" class="pulse"/>
+<text x="30" y="45" font-size="22" font-weight="700" fill="#e6edf3">Ravi Sharma · GitHub Contributions</text>
+<text x="30" y="68" font-size="13" fill="#8b949e">DevOps &amp; Cloud learning journey · Oct 2026</text>
+<g class="fade">
+<text x="30" y="125" font-size="34" font-weight="700" fill="#3fb950">65</text>
+<text x="30" y="147" font-size="13" fill="#8b949e">contributions in last year</text>
+<text x="290" y="125" font-size="34" font-weight="700" fill="#58a6ff">37</text>
+<text x="290" y="147" font-size="13" fill="#8b949e">commits in Oct 2026</text>
+<text x="550" y="125" font-size="34" font-weight="700" fill="#bc8cff">3</text>
+<text x="550" y="147" font-size="13" fill="#8b949e">new repositories</text>
+</g>
+<line x1="30" y1="170" x2="770" y2="170" stroke="#30363d"/>
+<text x="30" y="203" font-size="13" fill="#e6edf3">ravi-cloud511</text>
+<rect class="bar" x="190" y="190" width="252" height="16" rx="8" fill="#3fb950"/>
+<text x="452" y="203" font-size="13" fill="#8b949e">18</text>
+<text x="30" y="233" font-size="13" fill="#e6edf3">free-grammar-checker</text>
+<rect class="bar b2" x="190" y="220" width="196" height="16" rx="8" fill="#58a6ff"/>
+<text x="396" y="233" font-size="13" fill="#8b949e">14</text>
+<text x="30" y="263" font-size="13" fill="#e6edf3">Ravi-Sharma-Portfolio</text>
+<rect class="bar b3" x="190" y="250" width="70" height="16" rx="8" fill="#bc8cff"/>
+<text x="270" y="263" font-size="13" fill="#8b949e">5</text>
+<g stroke-width="16" stroke-dasharray="16 6">
+<line class="sq" x1="540" y1="196" x2="760" y2="196" stroke="#3fb950"/>
+<line class="sq r2" x1="540" y1="220" x2="760" y2="220" stroke="#2ea043"/>
+<line class="sq r3" x1="540" y1="244" x2="760" y2="244" stroke="#26a641"/>
+<line class="sq r4" x1="540" y1="268" x2="760" y2="268" stroke="#39d353"/>
+</g>
+</svg>
