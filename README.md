@@ -86,3 +86,9 @@ Building and documenting my journey in **DevOps & Cloud** through practical proj
 ---
 
 ### ⚡ Keep Learning. Keep Building. Keep Shipping.
+
+<h2 align="center">⚙️ My Daily DevOps Lifecycle</h2>
+
+<p align="center">
+  <img src="./devops-lifecycle-daily.svg" alt="Daily DevOps Lifecycle" width="100%">
+</p>
