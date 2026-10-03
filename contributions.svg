@@ -1,43 +1,106 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="800" height="300">
-<style>
-text{font-family:Segoe UI,Arial,sans-serif}
-.bar{transform-box:fill-box;transform-origin:left;transform:scaleX(0);animation:g 1.6s ease-out forwards}
-@keyframes g{to{transform:scaleX(1)}}
-.b2{animation-delay:.4s}.b3{animation-delay:.8s}
-.fade{opacity:0;animation:f 1s .3s forwards}
-@keyframes f{to{opacity:1}}
-.sq{animation:tw 2.4s ease-in-out infinite}
-@keyframes tw{0%,100%{opacity:.2}50%{opacity:1}}
-.r2{animation-delay:.5s}.r3{animation-delay:1s}.r4{animation-delay:1.5s}
-.pulse{animation:p 2s ease-in-out infinite}
-@keyframes p{0%,100%{opacity:.4}50%{opacity:1}}
-</style>
-<rect width="800" height="300" rx="14" fill="#0d1117" stroke="#30363d"/>
-<circle cx="770" cy="30" r="5" fill="#3fb950" class="pulse"/>
-<text x="30" y="45" font-size="22" font-weight="700" fill="#e6edf3">Ravi Sharma · GitHub Contributions</text>
-<text x="30" y="68" font-size="13" fill="#8b949e">DevOps &amp; Cloud learning journey · Oct 2026</text>
-<g class="fade">
-<text x="30" y="125" font-size="34" font-weight="700" fill="#3fb950">65</text>
-<text x="30" y="147" font-size="13" fill="#8b949e">contributions in last year</text>
-<text x="290" y="125" font-size="34" font-weight="700" fill="#58a6ff">37</text>
-<text x="290" y="147" font-size="13" fill="#8b949e">commits in Oct 2026</text>
-<text x="550" y="125" font-size="34" font-weight="700" fill="#bc8cff">3</text>
-<text x="550" y="147" font-size="13" fill="#8b949e">new repositories</text>
-</g>
-<line x1="30" y1="170" x2="770" y2="170" stroke="#30363d"/>
-<text x="30" y="203" font-size="13" fill="#e6edf3">ravi-cloud511</text>
-<rect class="bar" x="190" y="190" width="252" height="16" rx="8" fill="#3fb950"/>
-<text x="452" y="203" font-size="13" fill="#8b949e">18</text>
-<text x="30" y="233" font-size="13" fill="#e6edf3">free-grammar-checker</text>
-<rect class="bar b2" x="190" y="220" width="196" height="16" rx="8" fill="#58a6ff"/>
-<text x="396" y="233" font-size="13" fill="#8b949e">14</text>
-<text x="30" y="263" font-size="13" fill="#e6edf3">Ravi-Sharma-Portfolio</text>
-<rect class="bar b3" x="190" y="250" width="70" height="16" rx="8" fill="#bc8cff"/>
-<text x="270" y="263" font-size="13" fill="#8b949e">5</text>
-<g stroke-width="16" stroke-dasharray="16 6">
-<line class="sq" x1="540" y1="196" x2="760" y2="196" stroke="#3fb950"/>
-<line class="sq r2" x1="540" y1="220" x2="760" y2="220" stroke="#2ea043"/>
-<line class="sq r3" x1="540" y1="244" x2="760" y2="244" stroke="#26a641"/>
-<line class="sq r4" x1="540" y1="268" x2="760" y2="268" stroke="#39d353"/>
-</g>
-</svg>
+name: Update Contributions Graph
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate graph from real GitHub data
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_USER: ${{ github.repository_owner }}
+        run: |
+          python3 - <<'PY'
+          import os, json, urllib.request, datetime as dt
+          user=os.environ["GH_USER"]; tok=os.environ["GH_TOKEN"]
+          now=dt.datetime.utcnow(); start=now-dt.timedelta(days=364)
+          q="query($u:String!,$f:DateTime!,$t:DateTime!){user(login:$u){contributionsCollection(from:$f,to:$t){contributionCalendar{totalContributions weeks{contributionDays{date contributionCount}}}}}}"
+          body=json.dumps({"query":q,"variables":{"u":user,"f":start.strftime("%Y-%m-%dT00:00:00Z"),"t":now.strftime("%Y-%m-%dT%H:%M:%SZ")}}).encode()
+          req=urllib.request.Request("https://api.github.com/graphql",data=body,headers={"Authorization":"bearer "+tok,"User-Agent":"contrib-graph"})
+          res=json.load(urllib.request.urlopen(req))
+          if "errors" in res: raise SystemExit(res["errors"])
+          cal=res["data"]["user"]["contributionsCollection"]["contributionCalendar"]
+          total=cal["totalContributions"]
+          weeks=cal["weeks"][-52:]
+          days=[d for w in cal["weeks"] for d in w["contributionDays"]]
+          last=days[-30:]
+          cnt=[d["contributionCount"] for d in last]
+          mx=max(max(cnt),1)
+          ymx=max(max(d["contributionCount"] for d in days),1)
+          X=lambda i:70+i*780/(len(cnt)-1)
+          Y=lambda c:260-c/mx*160
+          pts=[(X(i),Y(c)) for i,c in enumerate(cnt)]
+          d="M%.1f,%.1f"%pts[0]
+          for (x0,y0),(x1,y1) in zip(pts,pts[1:]):
+              cx=(x0+x1)/2
+              d+=" C%.1f,%.1f %.1f,%.1f %.1f,%.1f"%(cx,y0,cx,y1,x1,y1)
+          area=d+" L850,260 L70,260 Z"
+          arr=[x["contributionCount"] for x in days]
+          if arr and arr[-1]==0: arr=arr[:-1]
+          streak=0
+          for c in reversed(arr):
+              if c>0: streak+=1
+              else: break
+          def lv(c):
+              if c==0: return "#161b22"
+              r=c/ymx
+              return "#39d353" if r>.75 else "#26a641" if r>.5 else "#006d32" if r>.25 else "#0e4429"
+          def lab(s): return dt.date.fromisoformat(s).strftime("%b %d")
+          pi=cnt.index(max(cnt)); px,py=pts[pi]
+          anc="end" if px>780 else "start" if px<100 else "middle"
+          peak=""
+          if max(cnt)>0:
+              peak='<circle class="pt" cx="%.1f" cy="%.1f" r="5" fill="#fff"/><text x="%.1f" y="%.1f" font-size="13" font-weight="700" fill="#fff" text-anchor="%s">%s · %d</text>'%(px,py,px,py-14,anc,lab(last[pi]["date"]),max(cnt))
+          cells=""
+          for wi,w in enumerate(weeks):
+              for dd in w["contributionDays"]:
+                  r=(dt.date.fromisoformat(dd["date"]).weekday()+1)%7
+                  cells+='<rect class="ce" style="animation-delay:%.2fs" x="%d" y="%d" width="12" height="12" rx="2" fill="%s"/>'%(2.5+wi*0.04,70+wi*15,338+r*15,lv(dd["contributionCount"]))
+          svg='''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 470" width="900" height="470">
+          <defs>
+          <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a1b3a"/><stop offset="1" stop-color="#0d1117"/></linearGradient>
+          <linearGradient id="ar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7aa2ff" stop-opacity=".55"/><stop offset="1" stop-color="#7aa2ff" stop-opacity="0"/></linearGradient>
+          <filter id="gl"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <style>
+          text{font-family:Segoe UI,Arial,sans-serif}
+          .ln{stroke-dasharray:1;stroke-dashoffset:1;animation:dr 3s ease-out forwards}
+          @keyframes dr{to{stroke-dashoffset:0}}
+          .ar{opacity:0;animation:fi 1.2s 2.2s forwards}
+          .fi{opacity:0;animation:fi 1s 2.6s forwards}
+          .ce{opacity:0;animation:fi .4s forwards}
+          @keyframes fi{to{opacity:1}}
+          .pt{animation:pu 1.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+          @keyframes pu{0%,100%{transform:scale(1)}50%{transform:scale(1.7)}}
+          .live{animation:tw 2s ease-in-out infinite}
+          @keyframes tw{0%,100%{opacity:.3}50%{opacity:1}}
+          </style>
+          <rect width="900" height="470" rx="16" fill="url(#bg)" stroke="#3b3f7a"/>
+          <text x="40" y="48" font-size="24" font-weight="700" fill="#9b8cff">Ravi Sharma's Contribution Graph</text>
+          <text x="40" y="70" font-size="13" fill="#8b9bd6">Last 30 days · live data · updated __UPD__</text>
+          <circle cx="862" cy="38" r="5" fill="#3fb950" class="live"/>
+          <g stroke="#3b3f7a" stroke-width="1" stroke-dasharray="3 5"><line x1="70" y1="92" x2="850" y2="92"/><line x1="70" y1="176" x2="850" y2="176"/><line x1="70" y1="260" x2="850" y2="260" stroke-dasharray="0"/></g>
+          <g font-size="12" fill="#8b9bd6" text-anchor="end"><text x="58" y="96">__MX__</text><text x="58" y="180">__MID__</text><text x="58" y="264">0</text></g>
+          <g font-size="12" fill="#8b9bd6"><text x="55" y="284">__D1__</text><text x="440" y="284">__D2__</text><text x="805" y="284">__D3__</text></g>
+          <path class="ar" fill="url(#ar)" d="__AREA__"/>
+          <path class="ln" pathLength="1" fill="none" stroke="#7aa2ff" stroke-width="3" filter="url(#gl)" d="__LINE__"/>
+          <g class="fi">__PEAK__</g>
+          <text x="40" y="318" font-size="16" font-weight="700" fill="#e6edf3">__TOTAL__ <tspan font-size="13" font-weight="400" fill="#8b9bd6">contributions in the last year · __S30__ in last 30 days · streak __STREAK__ days</tspan></text>
+          __CELLS__
+          <text x="40" y="458" font-size="12" fill="#8b9bd6">Keep Learning. Keep Building. Keep Shipping.</text>
+          </svg>'''
+          rep={"__UPD__":now.strftime("%b %d, %Y"),"__MX__":str(mx),"__MID__":str(round(mx/2)),"__D1__":lab(last[0]["date"]),"__D2__":lab(last[len(last)//2]["date"]),"__D3__":lab(last[-1]["date"]),"__AREA__":area,"__LINE__":d,"__PEAK__":peak,"__TOTAL__":str(total),"__S30__":str(sum(cnt)),"__STREAK__":str(streak),"__CELLS__":cells}
+          for k,v in rep.items(): svg=svg.replace(k,v)
+          open("contributions.svg","w").write(svg)
+          PY
+      - name: Commit graph
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add contributions.svg
+          git diff --cached --quiet || (git commit -m "Update contributions graph" && git push)
