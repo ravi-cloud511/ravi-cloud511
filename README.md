@@ -8,7 +8,7 @@
 
 # Hi, I'm Ravi Sharma 👋
 
-### DevOps & Cloud Engineer
+### Aspiring DevOps & Cloud Engineer
 
 I'm focused on DevOps, Cloud, automation, CI/CD, and building reliable software delivery workflows.
 
