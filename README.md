@@ -1,3 +1,11 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="./light.svg">
+    <img src="./dark.svg" alt="Ravi Sharma - DevOps intern and aspiring Cloud engineer" width="100%">
+  </picture>
+</p>
+
 # Hi, I'm Ravi Sharma 👋
 
 ### DevOps & Cloud Engineer
