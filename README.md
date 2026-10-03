@@ -84,7 +84,6 @@ Building and documenting my journey in **DevOps & Cloud** through practical proj
     />
   </picture>
 </p>
----
 
 ### ⚡ Keep Learning. Keep Building. Keep Shipping.
 
