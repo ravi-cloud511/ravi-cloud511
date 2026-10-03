@@ -56,8 +56,25 @@ Building and documenting my journey in **DevOps & Cloud** through practical proj
 - 🌐 [Portfolio](https://ravi-cloud511.github.io/portfolio/)
 - 🐙 [GitHub](https://github.com/ravi-cloud511)
 - 📧 ravi.with.cloud@gmail.com
+  <h2 align="center">📊 GitHub Contributions</h2>
 
-
+<p align="center">
+  <picture>
+    <source
+      media="(prefers-color-scheme: dark)"
+      srcset="./dist/github-contribution-grid-snake-dark.svg"
+    />
+    <source
+      media="(prefers-color-scheme: light)"
+      srcset="./dist/github-contribution-grid-snake.svg"
+    />
+    <img
+      src="./dist/github-contribution-grid-snake.svg"
+      alt="GitHub Contribution Snake"
+      width="100%"
+    />
+  </picture>
+</p>
 ---
 
 ### ⚡ Keep Learning. Keep Building. Keep Shipping.
