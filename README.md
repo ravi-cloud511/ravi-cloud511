@@ -65,10 +65,6 @@ Building and documenting my journey in **DevOps & Cloud** through practical proj
 - 🐙 [GitHub](https://github.com/ravi-cloud511)
 - 📧 ravi.with.cloud@gmail.com
 
-  <p align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=ravi-cloud511&theme=dracula&area=true&hide_border=true&custom_title=Ravi%20Sharma%20Contribution%20Graph" alt="Contribution Graph" width="100%">
-</p>
-
   <h2 align="center">📊 GitHub Contributions</h2>
 
 <p align="center">
