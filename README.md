@@ -1,16 +1,63 @@
-## Hi there 👋
+# Hi, I'm Ravi Sharma 👋
 
-<!--
-**ravi-cloud511/ravi-cloud511** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+### DevOps & Cloud Engineer
 
-Here are some ideas to get you started:
+I'm focused on DevOps, Cloud, automation, CI/CD, and building reliable software delivery workflows.
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+Currently learning and building practical projects around DevOps and Cloud technologies.
+
+---
+
+## 🚀 About Me
+
+- 💻 Focused on **DevOps & Cloud**
+- ☁️ Learning **Cloud Computing**
+- 🐳 Working with **Docker**
+- 🔄 Learning **CI/CD**
+- ⚙️ Exploring **GitHub Actions**
+- ☕ Working with **Java & Spring Boot**
+- 🎓 BCA — IGNOU (Pursuing)
+- 🌱 Continuously learning and building practical projects
+
+---
+
+## 🛠️ Tech Stack
+
+### DevOps & Cloud
+`Docker` `GitHub Actions` `CI/CD` `Git`
+
+### Development
+`Java` `Spring Boot` `Gradle`
+
+### Tools
+`GitHub` `Docker` `GitHub Actions`
+
+---
+
+## 📌 Featured Projects
+
+### 🔹 Docker Web Server
+A Docker-based web server project built to practice containerization and deployment workflows.
+
+### 🔹 Java Gradle Application
+A Java application built with Gradle to practice application builds and DevOps workflows.
+
+---
+
+## 📊 GitHub
+
+Building and documenting my journey in **DevOps & Cloud** through practical projects.
+
+---
+
+## 🤝 Connect With Me
+
+- 💼 [LinkedIn](https://www.linkedin.com/in/ravisharma-devops)
+- 🌐 [Portfolio](https://ravi-cloud511.github.io/portfolio/)
+- 🐙 [GitHub](https://github.com/ravi-cloud511)
+- 📧 ravi.with.cloud@gmail.com
+
+
+---
+
+### ⚡ Keep Learning. Keep Building. Keep Shipping.
