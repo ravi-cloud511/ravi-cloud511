@@ -64,6 +64,8 @@ Building and documenting my journey in **DevOps & Cloud** through practical proj
 - 🌐 [Portfolio](https://ravi-cloud511.github.io/Ravi-Sharma-Portfolio-/)
 - 🐙 [GitHub](https://github.com/ravi-cloud511)
 - 📧 ravi.with.cloud@gmail.com
+
+  ![Contributions](https://ghchart.rshah.org/2ea043/ravi-cloud511)
   
   <h2 align="center">📊 GitHub Contributions</h2>
 
